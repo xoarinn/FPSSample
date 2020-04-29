@@ -49,11 +49,21 @@ public struct WeakAssetReference
         this.val3 = val3;
     }
 
+    public override int GetHashCode()
+    {
+        return GetGuid().GetHashCode();
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is WeakAssetReference other && (other == this);
+    }
+
     public static bool operator ==(WeakAssetReference x, WeakAssetReference y)
     {
         return x.val0 == y.val0 && x.val1 == y.val1 && x.val2 == y.val2 && x.val3 == y.val3;
     }
-    public static bool operator !=(WeakAssetReference x, WeakAssetReference y) 
+    public static bool operator !=(WeakAssetReference x, WeakAssetReference y)
     {
         return !(x == y);
     }
@@ -62,7 +72,7 @@ public struct WeakAssetReference
     {
         return val0 != 0 || val1 != 0 || val2 != 0 || val3 != 0;
     }
-    
+
     public Guid GetGuid()
     {
         byte[] gb = new byte[16];
@@ -76,7 +86,7 @@ public struct WeakAssetReference
         Array.Copy(buf, 0, gb, 8, 4);
         buf = BitConverter.GetBytes(val3);
         Array.Copy(buf, 0, gb, 12, 4);
-        
+
         return new Guid(gb);
     }
 
@@ -84,22 +94,22 @@ public struct WeakAssetReference
     {
         return GetGuid().ToString("N");
     }
-    
-    
+
+
 #if UNITY_EDITOR
     public T LoadAsset<T>() where T : UnityEngine.Object
     {
         var path = AssetDatabase.GUIDToAssetPath(GetGuidStr());
         return AssetDatabase.LoadAssetAtPath<T>(path);
     }
-#endif     
+#endif
 }
 
 // This base is here to allow CustomPropertyDrawer to pick it up
 [System.Serializable]
 public class WeakBase
 {
-    public string guid = "";         
+    public string guid = "";
 }
 
 // Derive from this to create a typed weak asset reference

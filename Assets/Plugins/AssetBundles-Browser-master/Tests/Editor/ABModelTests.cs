@@ -1,18 +1,13 @@
 ﻿using System;
-using System.CodeDom;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.TestTools;
 using NUnit.Framework;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Assets.AssetBundles_Browser.Editor.Tests.Util;
 using Assets.Editor.Tests.Util;
-using Boo.Lang.Runtime;
 using AssetBundleBrowser.AssetBundleModel;
-using UnityEngine.SceneManagement;
 
 namespace AssetBundleBrowserTests
 {
@@ -451,7 +446,7 @@ namespace AssetBundleBrowserTests
             concreteFolder.AddChild(subConcreteFolder);
             subConcreteFolder.AddChild(subConcreteFolder);
 
-            Model.HandleBundleReparent(new BundleInfo[] { folderToBeMoved }, concreteFolder);  
+            Model.HandleBundleReparent(new BundleInfo[] { folderToBeMoved }, concreteFolder);
 
             Assert.AreEqual(concreteFolder.m_Name.bundleName, folderToBeMoved.parent.m_Name.bundleName);
         }
@@ -750,14 +745,14 @@ namespace AssetBundleBrowserTests
             return childList.Count;
         }
 
-        static void AddMaterialsToMultipleObjects(IEnumerable<string> parentNames, IEnumerable<string> paths, Material mat)
+        static void AddMaterialsToMultipleObjects(IReadOnlyList<string> parentNames, IReadOnlyList<string> paths, Material mat)
         {
-            for (int i = 0; i < parentNames.Count(); i++)
+            for (int i = 0; i < parentNames.Count; i++)
             {
-                GameObject p = GameObject.Find(parentNames.ElementAt(i));
+                GameObject p = GameObject.Find(parentNames[i]);
                 p.GetComponent<Renderer>().material = mat;
 
-                PrefabUtility.ReplacePrefab(p, AssetDatabase.LoadMainAssetAtPath(paths.ElementAt(i)));
+                PrefabUtility.SaveAsPrefabAsset(p, paths[i]);
             }
         }
 

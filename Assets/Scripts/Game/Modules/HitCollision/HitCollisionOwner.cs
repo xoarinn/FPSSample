@@ -14,7 +14,7 @@ public enum HitCollisionFlags
 [Serializable]
 public struct HitCollisionOwnerData : IComponentData
 {
-    [EnumBitField(typeof(HitCollisionFlags))] 
+    [EnumBitField(typeof(HitCollisionFlags))]
     public uint colliderFlags;
 
     public int collisionEnabled;
@@ -24,15 +24,15 @@ public struct HitCollisionOwnerData : IComponentData
 [DisallowMultipleComponent]
 public class HitCollisionOwner : ComponentDataProxy<HitCollisionOwnerData>
 {
-    private void OnEnable()
+    protected override void OnEnable()
     {
         // Make sure damage event buffer is created
-        // TODO (mogensh) create DamageEvent buffer using monobehavior wrapper (when it is available) 
+        // TODO (mogensh) create DamageEvent buffer using monobehavior wrapper (when it is available)
         var goe = GetComponent<GameObjectEntity>();
         if (goe != null && goe.EntityManager != null)
         {
             goe.EntityManager.AddBuffer<DamageEvent>(goe.Entity);
         }
-        
+
     }
 }

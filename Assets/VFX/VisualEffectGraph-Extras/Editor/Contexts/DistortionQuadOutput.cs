@@ -11,16 +11,16 @@ class DistortionQuadOutput : VFXAbstractParticleOutput
 {
     public class InputProperties
     {
-        public Texture2D DistortionMap;
-        public Vector2 Intensity;
-        public float Roughness;
+        public Texture2D DistortionMap = null;
+        public Vector2 Intensity = default;
+        public float Roughness = 0.0f;
     }
 
     public class InputPropertiesFlipbook
     {
-        public Texture2D DistortionMap;
-        public Vector2 Intensity;
-        public float Roughness;
+        public Texture2D DistortionMap = null;
+        public Vector2 Intensity = default;
+        public float Roughness = 0.0f;
         public Vector2 flipBookSize = new Vector2(5, 5);
     }
 
